@@ -1,0 +1,102 @@
+
+
+Menu, Tray, Add, View App Commands, VAC
+Menu, Tray, Add, View Script Commands, VSC
+Menu, Tray, Add, View Folder Commands, VFC
+Menu, Tray, Add, View Webpage Commands, VWC
+;~ msgbox %A_Chrome%
+Menu, Tray, Icon, C:\[DATA] AutoHotKey\AHK Icons\G Search.png
+Gui, Color, 000000
+Gui, Font, S8 Default Bold Cblack, EuroseWide Heavy
+gui,add,text,cAqua ,Quick Google     --     Enter a Search Term, Website, Program Name, or "help"
+Gui, +LastFound +ToolWindow
+WinSet, Transparent, 200
+WinSet, Region, 5-5 W460 H60 R10-10
+Gui, -Caption
+Gui, Font, S22 Default Cblack, EuroseWide Heavy
+Gui, Add, Edit, x10 y20 w450 h40 
+Gui, Add, Button, w0 h0 Default, &Open
+;Gui, Show, yCenter xCenter W472 H70,Googlewin
+GuiActive=0
+Menu,Tray,Default
+Sleep 2000
+
+Return
+
+F21::
+GSearchKey:
+	if GuiActive
+		GoSub, GuiEscape2
+	else 
+	{
+		Gui, Show, yCenter xCenter W472 H150, Googlewin
+		GuiActive = 1
+		FadeIn(200, "Googlewin")
+		KeyWait, numpadmult
+	}	
+Return
+;------------------------------------------------------------------
+ButtonOpen:
+ControlGetText, search, Edit1,Googlewin
+StringLeft, ww, search, 3
+GoSub, GuiEscape2
+if (www=="www")
+{
+run %search%
+GoSub, GuiEscape2
+}
+;------------------------------------------------------------------
+
+
+
+
+FadeIn(GUI_TRANS, WinName)
+{
+	transL := 0
+	Loop, 20
+	{
+		transL += GUI_TRANS//20
+		WinSet, Transparent, %transL%, %WinName%
+		Sleep, 10
+      GuiActive=0;
+	}
+}
+;------------------------------------------------------------------
+FadeOut(GUI_TRANS, WinName)
+{
+	transL := GUI_TRANS
+	Loop, 20
+	{
+		transL -= GUI_TRANS//20
+		WinSet, Transparent, %transL%, %WinName%
+		Sleep, 10
+	}
+}
+
+
+			
+Return
+
+GuiEscape2:
+	
+	GuiActive = 0
+	FadeOut(GUI_TRANS, "Googlewin")
+	ControlSetText, Edit1, ,Googlewin
+	Gui, Hide
+Return
+
+CleanUp:
+ExitApp
+}
+
+return
+
+VAC:
+return
+VSC:
+return
+VFC:
+return
+VWC:
+return
+
